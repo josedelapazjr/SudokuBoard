@@ -3,5 +3,8 @@
 export default {
   tableContainer: {
       maxWidth: 800,
-  }
+  },
+  cellBorder: {
+    borderLeft: '1px solid gray',
+  },
 };

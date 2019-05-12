@@ -11,11 +11,19 @@ import styles from './styles';
 
 class Foobar extends Component {
 
+  getUnusedNumbers = (row) => {
+    return [1,2,3,4,5,7,8,9].filter(number => !row.includes(number.toString()))
+  }
+
   renderRow(data, index) {
     return(
       <TableRow key={index}>
         {data && data.map( (number, cellIndex) => {
-          return <TableCell key={cellIndex}>{number > 0 ? number : null}</TableCell>
+          return <TableCell key={cellIndex}>
+            {/* <input value={number > 0 ? number : null}></input> */}
+            {/* {number != '0' ? number : '-'} */}
+            {number}
+          </TableCell>
         })}
       </TableRow>
     );
@@ -28,16 +36,28 @@ class Foobar extends Component {
     const dataLength = data.length;
     let dataArray = [];
     for(let index = 0; index < dataLength; index++) {
-      dataArray.push(parseInt(data.charAt(index)));
+      // dataArray.push(parseInt(data.charAt(index)));
+      // dataArray.push(data.charAt(index));
+      let numberChar = data.charAt(index);
+      dataArray.push(numberChar);
     }
     console.log('dataArray: ', dataArray);    
     let foobar = [];
     for(let index = 0; index < 9; index++ ) {
       const startIndex = index * 9;
       const endIndex = startIndex + 9;
-      foobar.push(dataArray.slice(startIndex, endIndex));
+      const rowArray = dataArray.slice(startIndex, endIndex)
+      foobar.push(rowArray);
     }
     console.log('foobar: ', foobar);
+    foobar = foobar.map(rowArray => {
+      const unusedNumbers = this.getUnusedNumbers(rowArray);
+      let newArray = rowArray.map(data => {
+        return data === '0' ? unusedNumbers.toString() : data;
+      });
+      console.log('newArray: ', newArray);
+      return newArray;
+    })
     return(
       <div className={classes.root}>
         <Button variant="outlined" color="primary">Testing</Button>
