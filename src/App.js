@@ -1,13 +1,12 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import Foobar from './Foobar';
+import SudokuBoard from './SudokuBoard';
 
 function App() {
   return (
     <div className="App">
-      Welcome to Sudoku!
-      <Foobar />
+      <SudokuBoard />
     </div>
   );
 }

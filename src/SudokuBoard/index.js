@@ -7,9 +7,11 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import Row from './Row';
+import Controls from './Controls';
 import styles from './styles';
 
-class Foobar extends Component {
+class SudokuBoard extends Component {
 
   getUnusedNumber = (peers) => {
     const {dataFoobar} = this.state;
@@ -156,20 +158,22 @@ class Foobar extends Component {
   render() {
     console.log('rendering');
     const {classes} = this.props;
-    const {squaresArray} = this.state;
+    const {squaresArray, dataFoobar} = this.state;
     console.log('squaresArray: ', squaresArray);
   
     return(
       <div className={classes.root}>
-        <Button variant="outlined" color="primary">Testing</Button>
-        <div className={classes.tableContainer}>
+        <div className={classes.tableContainer}>  
           <Table>
+            <TableHead>Sudoku!</TableHead>
             <TableBody>
               {squaresArray && squaresArray.map( (row, index) => 
-                this.renderRow(row, index)
+                // this.renderRow(row, index)
+                <Row data={row} index={index} dataFoobar={dataFoobar}/>
               )}
             </TableBody>
           </Table>
+          <Controls />
         </div>
       </div>
     );
@@ -177,4 +181,4 @@ class Foobar extends Component {
 };
 
 
-export default injectSheet(styles)(Foobar);
+export default injectSheet(styles)(SudokuBoard);
