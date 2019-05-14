@@ -19,12 +19,12 @@ const getUnusedNumber = (peers, dataFoobar) => {
   }
 
 
-const Row = ({data, index, dataFoobar}) => (
+const Row = ({data, index, dataFoobar, isValid}) => (
     <TableRow key={index}>
         {data && data.map((id, index) => {
             const unusedNumbers = getUnusedNumber(dataFoobar[id].peers, dataFoobar);
             const square = dataFoobar[id];
-            return <Cell key={index} id={square.id} value={square.value}/>
+            return <Cell key={index} id={square.id} value={square.value} isValid={isValid}/>
         })}
     </TableRow>
 

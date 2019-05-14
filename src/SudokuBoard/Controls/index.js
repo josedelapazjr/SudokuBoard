@@ -5,8 +5,8 @@ import styles from './styles';
 
 const Controls = ({classes}) => (
     <div className={classes.root}>
-        {['1','2','3','4','5','6','7','8','9'].map(number =>
-            <Fab color="primary" aria-label="Add" /*className={classes.fab}*/>
+        {['1','2','3','4','5','6','7','8','9'].map(number => 
+            <Fab id={number} color="primary" aria-label="Add">
                     {number}
                 </Fab>
             )}

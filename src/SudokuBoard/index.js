@@ -13,6 +13,22 @@ import styles from './styles';
 
 class SudokuBoard extends Component {
 
+  isValid = (square, number) => {
+    const { dataFoobar } = this.state;
+    const data = dataFoobar[square];
+    const peers = data.peers;
+    let result = true;
+    for(let index = 0; index < peers.length; index++) {
+      const peerSquare = peers[index];
+      const perSquareValue = dataFoobar[peerSquare].value;
+      if(perSquareValue === number) {
+        result = false;
+        break;
+      }
+    }
+    return result;
+  }
+
   getUnusedNumber = (peers) => {
     const {dataFoobar} = this.state;
     const result =  ['1','2','3','4','5','7','8','9'].filter(number => {
@@ -169,7 +185,7 @@ class SudokuBoard extends Component {
             <TableBody>
               {squaresArray && squaresArray.map( (row, index) => 
                 // this.renderRow(row, index)
-                <Row data={row} index={index} dataFoobar={dataFoobar}/>
+                <Row key={index} data={row} index={index} dataFoobar={dataFoobar} isValid={this.isValid}/>
               )}
             </TableBody>
           </Table>
