@@ -13,9 +13,8 @@ class Cell extends Component {
     }
 
     handleChange = (event) => {
-        console.log('handleChange:event ', event);
         const {value} = event.target;
-        console.log('handleChange:value ', value);
+
         const {id, isValid} = this.props;
         let hasError = false;
         if(!isValid(id, value)) {
@@ -33,22 +32,22 @@ class Cell extends Component {
     }
 
     render() {
-        const {key, id} = this.props;
+        const {id} = this.props;
         const {value, hasError} = this.state;
         return(
             <TableCell 
-                key={key}
                 margin="normal"
                 padding="none"
                 align="center"
             >
                 <TextField 
                     id={id} 
-                    value={parseInt(value) > 0 ? value : null} 
+                    value={parseInt(value) > 0 ? value : ''} 
                     variant="outlined" 
                     // disabled={value === '0' ? false : true}
                     onChange={this.handleChange}
                     error={hasError}
+                    onKeyPress={this.handleKeyPress}
                 />
             </TableCell>    
         );

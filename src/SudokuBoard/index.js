@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import injectSheet from 'react-jss';
+import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import Paper from "@material-ui/core/Paper";
 import Table from '@material-ui/core/Table';
@@ -10,6 +11,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Row from './Row';
 import Controls from './Controls';
 import styles from './styles';
+import {initializeSquareList} from './actions';
 
 class SudokuBoard extends Component {
 
@@ -43,24 +45,6 @@ class SudokuBoard extends Component {
       return isValid; 
     });
     return result;
-  }
-
-
-  renderRow(data, index) {
-    const {dataFoobar} = this.state;
-    return(
-      <TableRow key={index}>
-        {data && data.map((id, index) => {
-          const unusedNumbers = this.getUnusedNumber(dataFoobar[id].peers);
-          const square = dataFoobar[id];
-          const value = square.value;
-          return <TableCell key={id}>
-            <input id={square.id} value={value} disabled={value !== '0' ? "disabled" : null}/>
-          </TableCell>
-        })}
-      </TableRow>
-    );
-
   }
 
   cross = (data1, data2) => {
@@ -152,8 +136,6 @@ class SudokuBoard extends Component {
         peers: squarePeers
       }
     }
-    console.log('dataFoobar: ', dataFoobar);
-    console.log('dataArray: ', dataArray);
 
     let squaresArray= [];
     for(let index = 0; index < 9; index++ ) {
@@ -169,32 +151,37 @@ class SudokuBoard extends Component {
       dataFoobar: dataFoobar,
       squaresArray: squaresArray,
     }); 
+    this.props.handleInitList(dataFoobar)
   }
 
   render() {
-    console.log('rendering');
-    const {classes} = this.props;
-    const {squaresArray, dataFoobar} = this.state;
-    console.log('squaresArray: ', squaresArray);
-  
+    const {classes, squareList} = this.props;
+    const {squaresArray} = this.state;
     return(
       <div className={classes.root}>
-        <div className={classes.tableContainer}>  
+          <div>
+            Welcome to Sudoku Board!
+          </div>
           <Table>
-            <TableHead>Sudoku!</TableHead>
             <TableBody>
-              {squaresArray && squaresArray.map( (row, index) => 
-                // this.renderRow(row, index)
-                <Row key={index} data={row} index={index} dataFoobar={dataFoobar} isValid={this.isValid}/>
+              {squareList && squaresArray && squaresArray.map( (row, index) => 
+                <Row key={index} data={row} index={index} squareList={squareList} isValid={this.isValid}/>
               )}
             </TableBody>
           </Table>
-          <Controls />
+          {/* <Controls /> */}
         </div>
-      </div>
     );
   }
 };
 
+const mapStateToProps = state => ({
+  squareList: state.squareReducers.squareList,
+});
 
-export default injectSheet(styles)(SudokuBoard);
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  handleInitList: (squareList) => dispatch(initializeSquareList(squareList)),
+})
+
+
+export default injectSheet(styles)(connect(mapStateToProps,mapDispatchToProps)(SudokuBoard));
