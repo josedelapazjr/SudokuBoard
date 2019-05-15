@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
+import injectSheet from 'react-jss';
+import styles from './styles';
 import Cell from './Cell';
 
 const getUnusedNumber = (peers, squareList) => {
@@ -19,15 +21,24 @@ const getUnusedNumber = (peers, squareList) => {
   }
 
 
-const Row = ({data, index, squareList, isValid}) => (
-    <TableRow key={index}>
-        {data && data.map((id, index) => {
-            const unusedNumbers = getUnusedNumber(squareList[id].peers, squareList);
-            const square = squareList[id];
-            return <Cell key={index} id={square.id} value={square.value} isValid={isValid}/>
-        })}
-    </TableRow>
-
+const Row = ({data, rowIndex, squareList, isValid, classes}) => (
+    <div className={classes.root}>
+      <TableRow key={rowIndex}>
+          {data && data.map((id, index) => {
+              const unusedNumbers = getUnusedNumber(squareList[id].peers, squareList);
+              const square = squareList[id];
+              return <Cell 
+                key={index} 
+                index={index} 
+                id={square.id} 
+                value={square.value} 
+                isValid={isValid}
+                possibleValues={square.possibleValues}
+                isReadOnly={square.isFixedValue}
+              />
+          })}
+      </TableRow>
+    </div>
 );
 
-export default Row;
+export default injectSheet(styles)(Row);

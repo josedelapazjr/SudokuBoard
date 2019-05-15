@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
 import TableCell from '@material-ui/core/TableCell';
 import TextField from '@material-ui/core/TextField';
+import Tooltip from '@material-ui/core/Tooltip';
+import injectSheet from 'react-jss';
+import styles from './styles';
 
 class Cell extends Component {
 
@@ -32,9 +35,12 @@ class Cell extends Component {
     }
 
     render() {
-        const {id} = this.props;
+        const {id, index, possibleValues, isReadOnly, classes} = this.props;
         const {value, hasError} = this.state;
+        const columnNumber = index + 1;
+        const hasBorder = columnNumber % 3 === 0 && columnNumber < 9;
         return(
+          <Tooltip title={isReadOnly ? 'Fixed' : possibleValues}>
             <TableCell 
                 margin="normal"
                 padding="none"
@@ -44,14 +50,23 @@ class Cell extends Component {
                     id={id} 
                     value={parseInt(value) > 0 ? value : ''} 
                     variant="outlined" 
-                    // disabled={value === '0' ? false : true}
                     onChange={this.handleChange}
                     error={hasError}
                     onKeyPress={this.handleKeyPress}
+                    InputProps={{
+                      readOnly: isReadOnly,
+                    }}
+                    inputProps={{ 
+                      style: {
+                        textAlign: 'center',
+                        borderRight: hasBorder ? '2px solid black' : null,
+                      } 
+                    }}
                 />
-            </TableCell>    
+            </TableCell>   
+          </Tooltip> 
         );
     }
 }
 
-export default Cell;
+export default injectSheet(styles)(Cell);

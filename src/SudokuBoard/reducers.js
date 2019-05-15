@@ -1,5 +1,5 @@
 const initialState = {
-    squareList: null,
+  squaresData: null,
 }
 
 export default function squareReducer(state=initialState,action) {
@@ -8,7 +8,7 @@ export default function squareReducer(state=initialState,action) {
         case 'INIT_LIST': {
             return {
                 ...state,
-                squareList: action.payload,
+                squaresData: action.payload,
             }
         }
         case 'UPDATE_LIST': {

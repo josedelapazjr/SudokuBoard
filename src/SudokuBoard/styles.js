@@ -1,7 +1,16 @@
-// import { isWidthUp } from '@material-ui/core/withWidth/index';
+import { isWidthUp } from '@material-ui/core/withWidth/index';
 
 export default {
-  root: {
-      maxWidth: 800,
+  root: ({ width }) => {
+    return {
+      margin: '0 auto',
+      width: isWidthUp('md', width) ? 800 : 400,
+    };
   },
+  header: {
+    
+  },
+  tableContainer: {
+    border: '2px solid black',
+  }
 };

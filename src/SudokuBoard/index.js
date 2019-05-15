@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import injectSheet from 'react-jss';
+import withWidth from '@material-ui/core/withWidth';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import Paper from "@material-ui/core/Paper";
@@ -12,17 +13,23 @@ import Row from './Row';
 import Controls from './Controls';
 import styles from './styles';
 import {initializeSquareList} from './actions';
+import Utility from './Utility';
 
 class SudokuBoard extends Component {
 
+  state = {
+    squaresArrayPerRow: [],
+  };
+
   isValid = (square, number) => {
-    const { dataFoobar } = this.state;
-    const data = dataFoobar[square];
+    console.log('square: ', number);
+    const { squaresData } = this.props;
+    const data = squaresData[square];
     const peers = data.peers;
     let result = true;
     for(let index = 0; index < peers.length; index++) {
       const peerSquare = peers[index];
-      const perSquareValue = dataFoobar[peerSquare].value;
+      const perSquareValue = squaresData[peerSquare].value;
       if(perSquareValue === number) {
         result = false;
         break;
@@ -47,128 +54,76 @@ class SudokuBoard extends Component {
     return result;
   }
 
-  cross = (data1, data2) => {
-    let result = [];
-      for(let rowIndex = 0; rowIndex < data1.length; rowIndex++) {
-        for(let columnIndex = 0; columnIndex < data2.length; columnIndex++) {
-            result.push(data1[rowIndex] + data2[columnIndex]);
-          }
-      }  
-      return result;
-  }
-  generateFoobar = () => {
-    const rows = "1,2,3,4,5,6,7,8,9".split(',');
-    const columns = "A,B,C,D,E,F,G,H,I".split(',');
-
-    // SQUARES
-    const SQUARES = this.cross(columns, rows);
-    // console.log('squares: ', squares);
-
-
-    // VERTICAL UNIT
-    let VERTICAL_UNITS = []
-    for (var i=0; i<rows.length; i++) {
-        VERTICAL_UNITS.push(this.cross(columns, [rows[i]])); 
-    }
-
-    // HORIZONTAL UNIT
-    let HORIZONTAL_UNITS = []
-    for (var i=0; i<columns.length; i++) {
-      HORIZONTAL_UNITS.push(this.cross([columns[i]],rows)); 
-    }
-    //console.log('unitList: ', unitList);
-
-    // SQUARE UNITS
-    let SQUARE_UNITS = []
-    var groupCols = ["A,B,C", "D,E,F", "G,H,I"];
-    var groupRows = ["1,2,3", "4,5,6", "7,8,9"];
-    for (var c=0;c<groupCols.length;c++) {
-      for (var r=0;r<groupRows.length;r++) {
-        SQUARE_UNITS.push(this.cross(groupCols[c].split(','), groupRows[r].split(',')))
-      }
-    }
-
-    const UNITLIST = [...HORIZONTAL_UNITS, ...VERTICAL_UNITS, ...SQUARE_UNITS]
-    let UNITS = {};
-    let PEERS = {};
-    for(let index = 0; index < SQUARES.length; index ++) {
-      const square = SQUARES[index];
-      const squareUnits = UNITLIST.filter(unit => unit.includes(square));
-      let squarePeers = squareUnits
-        .reduce((a,b) =>[
-          ...a.filter(data => data !==square), 
-          ...b.filter(data => data !==square)
-        ], [])
-      // Remove duplicates
-      squarePeers = squarePeers.filter((v,i) => {
-        return squarePeers.indexOf(v) === i
-      })
-      UNITS[square] = squareUnits;
-      PEERS[square] = squarePeers;
-    }
-
-    console.log('squarePeers: ', PEERS['A1']);
-    return {
-      squares: SQUARES,
-      peers: PEERS,
-    }
-  }
-
   componentWillMount = () => {
     console.log('rendering');
     const {classes} = this.props;
-    const foobar = this.generateFoobar();
+    const foobar = Utility.generateFoobar();
     const data = '016002400320009000040103000005000069009050300630000800000306010000400072004900680';
     const dataLength = data.length;
     let dataArray = [];
-    let dataFoobar = {};
+    let squaresData = {};
     const squares = foobar['squares'];
     const peers = foobar['peers'];
     for(let index = 0; index < dataLength; index++) {
       let numberChar = data.charAt(index);
-      const square = squares[index];
-      const squarePeers = peers[square];
+      const squareCode = squares[index];
+      const squarePeers = peers[squareCode];
       dataArray.push(numberChar);
-      let availableNumbers = [];
-      dataFoobar[square] = {
+      squaresData[squareCode] = {
         value: numberChar,
-        id: square,
-        peers: squarePeers
+        id: squareCode,
+        peers: squarePeers,
+        isFixedValue: numberChar !== '0',
       }
     }
 
-    let squaresArray= [];
-    for(let index = 0; index < 9; index++ ) {
-      const startIndex = index * 9;
-      const endIndex = startIndex + 9;
-      const rowArray = squares.slice(startIndex, endIndex)
-      squaresArray.push(rowArray);
-    }
-
     this.setState({
-      squares: squares,
-      dataArray: dataArray,
-      dataFoobar: dataFoobar,
-      squaresArray: squaresArray,
+      squaresArrayPerRow: foobar['squaresArrayPerRow'],
     }); 
-    this.props.handleInitList(dataFoobar)
+    console.log('squaresData: ', squaresData);
+
+    // SET POSSIBLE VALUES
+    Object.keys(squaresData).forEach( key => {
+      const squareData = squaresData[key];
+      const peers = squareData.peers;
+      let possibleValues = [];
+      if(squareData.value === '0'){
+        possibleValues = ['1','2','3','4','5','6','7','8','9'].filter(number => {
+          var isValid = true;
+          for(let index = 0; index < peers.length; index++) {
+            const peer = peers[index];
+            if(squaresData[peer].value === number){
+              isValid = false;
+              break;
+            }
+          }
+          return isValid; 
+        });
+      }
+      squareData.possibleValues = possibleValues
+      squaresData[key] = squareData;
+    }); 
+    this.props.handleInitList(squaresData)
   }
 
   render() {
-    const {classes, squareList} = this.props;
-    const {squaresArray} = this.state;
+    const {classes, squaresData} = this.props;
+    const {squaresArrayPerRow} = this.state;
     return(
       <div className={classes.root}>
-          <div>
-            Welcome to Sudoku Board!
+          <div className={classes.header}>
+            <h1>Sudoku Board</h1>
           </div>
+          <div className={classes.tableContainer}>
           <Table>
             <TableBody>
-              {squareList && squaresArray && squaresArray.map( (row, index) => 
-                <Row key={index} data={row} index={index} squareList={squareList} isValid={this.isValid}/>
+              {squaresData && squaresArrayPerRow && squaresArrayPerRow.map( (row, rowIndex) => 
+                <Row key={rowIndex} data={row} rowIndex={rowIndex} squareList={squaresData} isValid={this.isValid}/>
               )}
             </TableBody>
           </Table>
+          </div>
+          
           {/* <Controls /> */}
         </div>
     );
@@ -176,12 +131,12 @@ class SudokuBoard extends Component {
 };
 
 const mapStateToProps = state => ({
-  squareList: state.squareReducers.squareList,
+  squaresData: state.squareReducers.squaresData,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  handleInitList: (squareList) => dispatch(initializeSquareList(squareList)),
+  handleInitList: (squaresData) => dispatch(initializeSquareList(squaresData)),
 })
 
 
-export default injectSheet(styles)(connect(mapStateToProps,mapDispatchToProps)(SudokuBoard));
+export default withWidth()(injectSheet(styles)(connect(mapStateToProps,mapDispatchToProps)(SudokuBoard)));
