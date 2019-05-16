@@ -14,12 +14,30 @@ import Controls from './Controls';
 import styles from './styles';
 import {initializeSquareList, updateSquare, setIsComplete} from './actions';
 import Utility from './Utility';
+import Alert from './Alert';
 
 class SudokuBoard extends Component {
 
   state = {
     squaresArrayPerRow: [],
+    showModal: false,
   };
+
+  componentDidUpdate = (prevProps) => {
+    const {isComplete} = this.props
+    if( prevProps.isComplete !== isComplete && isComplete) {
+      this.setState({
+        showModal: true,
+      });
+    }
+  }
+
+  handleAlertClose = () => {
+    console.log('executing handleAlertClose...');
+    this.setState({
+      showModal : false
+    });
+  }
 
   isValid = (square, number) => {
     console.log('square: ', number);
@@ -54,7 +72,7 @@ class SudokuBoard extends Component {
     return result;
   }
 
-  componentWillMount = () => {
+  componentDidMount = () => {
     console.log('rendering');
     const {classes} = this.props;
     const foobar = Utility.generateFoobar();
@@ -110,8 +128,8 @@ class SudokuBoard extends Component {
   }
 
   render() {
-    const {classes, squaresData, handleUpdateSquare, isComplete} = this.props;
-    const {squaresArrayPerRow} = this.state;
+    const {classes, squaresData, handleUpdateSquare} = this.props;
+    const {squaresArrayPerRow, showModal} = this.state;
     return(
       <div className={classes.root}>
           <div className={classes.header}>
@@ -132,6 +150,7 @@ class SudokuBoard extends Component {
             </TableBody>
           </Table>
           </div>
+          <Alert isOpen={showModal} handleClose={this.handleAlertClose}/>
         </div>
     );
   }
