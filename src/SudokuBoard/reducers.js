@@ -27,7 +27,7 @@ export default function squareReducer(state=initialState,action) {
               [squareCode]: squareData,
             },
             isComplete: Object.keys(state.squaresData).
-              filter(key => state.squaresData[key].value === '0').length === 0
+              filter(key => state.squaresData[key].value === '0').length === 0,
           }
         }
         case 'SET_IS_COMPLETE' :{

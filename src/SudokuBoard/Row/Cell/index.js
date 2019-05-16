@@ -7,64 +7,71 @@ import styles from './styles';
 
 class Cell extends Component {
 
-    componentWillMount = () => {
-        const {value} = this.props;
-        this.setState({
-            value: value,
-            hasError: false,
-        });
-    }
+  state = {
+    value: 0,
+    hasError: false,  
+  }
 
-    handleChange = (event) => {
-        const {value} = event.target;
-        const {id, isValid, handleUpdateSquare} = this.props;
-        let hasError = false;
-
-        if(isValid(id, value)) {
-          handleUpdateSquare(id, value);
-        } else {
-          hasError = true;    
-        };
-        this.setState({
-            value: value,
-            hasError: hasError,
-        });
+  static getDerivedStateFromProps(props, state) {
+    if(state.value !== props.value) {
+      return {
+        value: props.value,
+      }
     }
+    return null;
+  }
 
-    checkIsValid = () => {
-        const {key, id, value, isValid} = this.props;
-        return isValid(id, value);
-    }
+  handleChange = (event) => {
+    const {value} = event.target;
+    const {id, isValid, handleUpdateSquare} = this.props;
+    let hasError = false;
 
-    render() {
-        const {id, possibleValues, isReadOnly, classes} = this.props;
-        const {value, hasError} = this.state;
-        return(
-          <Tooltip title={isReadOnly ? 'Fixed' : possibleValues}>
-            <TableCell 
-                margin="normal"
-                padding="none"
-                align="center"
-            >
-                <TextField 
-                    id={id} 
-                    value={parseInt(value) > 0 ? value : ''} 
-                    variant="outlined" 
-                    onChange={this.handleChange}
-                    error={hasError}
-                    onKeyPress={this.handleKeyPress}
-                    InputProps={{
-                      readOnly: isReadOnly,
-                    }}
-                    inputProps = {{
-                      className: classes.input,
-                    }}
-                    className={classes.root}
-                />
-            </TableCell>   
-          </Tooltip> 
-        );
-    }
+    if(isValid(id, value)) {
+      handleUpdateSquare(id, value);
+    } else {
+      hasError = true;    
+    };
+    this.setState({
+        value: value,
+        hasError: hasError,
+    });
+  }
+
+  checkIsValid = () => {
+      const {key, id, value, isValid} = this.props;
+      return isValid(id, value);
+  }
+
+  render() {
+    console.log('Cell:rendering!');
+    const {id, possibleValues, isReadOnly, classes} = this.props;
+    const {value, hasError} = this.state;
+    return(
+      <Tooltip title={isReadOnly ? 'Fixed' : possibleValues}>
+        <TableCell 
+            margin="normal"
+            padding="none"
+            align="center"
+        >
+            <TextField 
+                id={id} 
+                value={parseInt(value) > 0 ? value : ''} 
+                variant="outlined" 
+                onChange={this.handleChange}
+                error={hasError}
+                onKeyPress={this.handleKeyPress}
+                InputProps={{
+                  readOnly: isReadOnly,
+                }}
+                inputProps = {{
+                  className: classes.input,
+                }}
+                className={classes.root}
+            />
+        </TableCell>   
+      </Tooltip> 
+    );
+  }
 }
 
 export default injectSheet(styles)(Cell);
