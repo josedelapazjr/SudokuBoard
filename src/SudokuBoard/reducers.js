@@ -4,7 +4,6 @@ const initialState = {
 }
 
 export default function squareReducer(state=initialState,action) {
-    console.log('action: ', action);
     switch(action.type) {
         case 'INIT_LIST': {
             return {
@@ -18,8 +17,6 @@ export default function squareReducer(state=initialState,action) {
             ...state.squaresData[squareCode],
             value: value,
           };
-          console.log('UPDATE_SQAURE:incompleteCount: ', Object.keys(state.squaresData).
-            filter(key => state.squaresData[key].value === '0').length);
           return {
             ...state,
             squaresData: {

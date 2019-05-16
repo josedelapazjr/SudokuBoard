@@ -8,24 +8,20 @@ import styles from './styles';
 class Cell extends Component {
 
   state = {
-    value: 0,
+    value: this.props.value,
     hasError: false,  
   }
 
-  static getDerivedStateFromProps(props, state) {
-    if(state.value !== props.value) {
-      return {
-        value: props.value,
-      }
+  componentDidUpdate = (prevProps, prevState) => {
+    if(prevProps.value !== this.props.value) {
+      this.setState({value:  this.props.value});
     }
-    return null;
   }
 
   handleChange = (event) => {
     const {value} = event.target;
     const {id, isValid, handleUpdateSquare} = this.props;
     let hasError = false;
-
     if(isValid(id, value)) {
       handleUpdateSquare(id, value);
     } else {
