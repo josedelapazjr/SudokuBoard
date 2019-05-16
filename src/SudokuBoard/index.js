@@ -12,7 +12,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Row from './Row';
 import Controls from './Controls';
 import styles from './styles';
-import {initializeSquareList} from './actions';
+import {initializeSquareList, updateSquare, setIsComplete} from './actions';
 import Utility from './Utility';
 
 class SudokuBoard extends Component {
@@ -23,7 +23,7 @@ class SudokuBoard extends Component {
 
   isValid = (square, number) => {
     console.log('square: ', number);
-    const { squaresData } = this.props;
+    const { squaresData, handleSetIsComplete } = this.props;
     const data = squaresData[square];
     const peers = data.peers;
     let result = true;
@@ -58,7 +58,10 @@ class SudokuBoard extends Component {
     console.log('rendering');
     const {classes} = this.props;
     const foobar = Utility.generateFoobar();
-    const data = '016002400320009000040103000005000069009050300630000800000306010000400072004900680';
+    // const data = '016002400320009000040103000005000069009050300630000800000306010000400072004900680';
+    // const data = '400000805030000000000700000020000060000080400000010000000603070500200000104000000';
+    // const data = '003020600900305001001806400008102900700000008006708200002609500800203009005010300';
+    const data = '483921657967345821251876493548132976729564138136798245372689514814253769005417382';
     const dataLength = data.length;
     let dataArray = [];
     let squaresData = {};
@@ -107,7 +110,7 @@ class SudokuBoard extends Component {
   }
 
   render() {
-    const {classes, squaresData} = this.props;
+    const {classes, squaresData, handleUpdateSquare, isComplete} = this.props;
     const {squaresArrayPerRow} = this.state;
     return(
       <div className={classes.root}>
@@ -118,13 +121,17 @@ class SudokuBoard extends Component {
           <Table>
             <TableBody>
               {squaresData && squaresArrayPerRow && squaresArrayPerRow.map( (row, rowIndex) => 
-                <Row key={rowIndex} data={row} rowIndex={rowIndex} squareList={squaresData} isValid={this.isValid}/>
+                <Row 
+                  key={rowIndex} 
+                  data={row} rowIndex=
+                  {rowIndex} 
+                  squareList={squaresData} 
+                  isValid={this.isValid}
+                  handleUpdateSquare={handleUpdateSquare}/>
               )}
             </TableBody>
           </Table>
           </div>
-          
-          {/* <Controls /> */}
         </div>
     );
   }
@@ -132,10 +139,13 @@ class SudokuBoard extends Component {
 
 const mapStateToProps = state => ({
   squaresData: state.squareReducers.squaresData,
+  isComplete: state.squareReducers.isComplete,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   handleInitList: (squaresData) => dispatch(initializeSquareList(squaresData)),
+  handleUpdateSquare: (squareCode, value) => dispatch(updateSquare(squareCode, value)),
+  handleSetIsComplete: () => dispatch(setIsComplete()),
 })
 
 

@@ -17,11 +17,13 @@ class Cell extends Component {
 
     handleChange = (event) => {
         const {value} = event.target;
-
-        const {id, isValid} = this.props;
+        const {id, isValid, handleUpdateSquare} = this.props;
         let hasError = false;
-        if(!isValid(id, value)) {
-            hasError = true;
+
+        if(isValid(id, value)) {
+          handleUpdateSquare(id, value);
+        } else {
+          hasError = true;    
         };
         this.setState({
             value: value,
@@ -35,10 +37,8 @@ class Cell extends Component {
     }
 
     render() {
-        const {id, index, possibleValues, isReadOnly, classes} = this.props;
+        const {id, possibleValues, isReadOnly, classes} = this.props;
         const {value, hasError} = this.state;
-        const columnNumber = index + 1;
-        const hasBorder = columnNumber % 3 === 0 && columnNumber < 9;
         return(
           <Tooltip title={isReadOnly ? 'Fixed' : possibleValues}>
             <TableCell 
@@ -56,12 +56,10 @@ class Cell extends Component {
                     InputProps={{
                       readOnly: isReadOnly,
                     }}
-                    inputProps={{ 
-                      style: {
-                        textAlign: 'center',
-                        borderRight: hasBorder ? '2px solid black' : null,
-                      } 
+                    inputProps = {{
+                      className: classes.input,
                     }}
+                    className={classes.root}
                 />
             </TableCell>   
           </Tooltip> 

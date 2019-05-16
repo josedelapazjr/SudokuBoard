@@ -3,7 +3,25 @@ export const initializeSquareList = (squareList) => ({
     payload: squareList,
 });
 
-export const updateSquare = (square) => ({
+export const updateSquare = (squareCode, value) => ({
     type: 'UPDATE_SQAURE',
-    payload: square,
-})
+    payload: {
+      squareCode,
+      value,
+    },
+});
+
+export const setIsComplete = () => ({
+  type: 'SET_IS_COMPLETE',
+});
+
+// export const updateSquare = (squareCode, value) => {
+//   console.log('calling updateSquare...');
+//   return {
+//     type: 'UPDATE_SQAURE',
+//     payload: {
+//       squareCode,
+//       value,
+//     },
+//   };
+// }
