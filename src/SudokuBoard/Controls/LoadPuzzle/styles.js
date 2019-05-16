@@ -6,9 +6,11 @@ export default {
       marginTop: isWidthUp('sm', width) ? -600 : null,
     }
   },
-  text:  {
-    minWidth: 550,
-  },
+  text: ({width}) => {
+    return {
+      minWidth: isWidthUp('sm', width) ? 550 : null,
+    };
+  }, 
   input: {
     fontSize: 12,
   },

@@ -8,7 +8,7 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Tooltip from '@material-ui/core/Tooltip';
 import injectSheet from 'react-jss';
-import withWidth from '@material-ui/core/withWidth';
+import withWidth, { isWidthUp} from '@material-ui/core/withWidth';
 import styles from './styles';
 
 class LoadPuzzle extends Component {
@@ -28,7 +28,9 @@ class LoadPuzzle extends Component {
   handleOkButton = () => {
     const {handleLoadPuzzle, handleClose} = this.props;
     const {value} = this.state;
-    handleLoadPuzzle(value);
+    if(value.length > 0) {
+      handleLoadPuzzle(value);
+    }
     handleClose();
     this.setState({
       value: '',
@@ -36,8 +38,10 @@ class LoadPuzzle extends Component {
   }
 
   render() {
-    const {isOpen, handleClose, classes} = this.props;
+    const {isOpen, handleClose, width, classes} = this.props;
+    const isMobile = !isWidthUp('sm', width);
     const {value} = this.state;
+    const label = 'Please provide a sudoku puzzle in series of numbers (0 for empty cell)';
     return(
       <Dialog 
         open={isOpen} 
@@ -46,12 +50,20 @@ class LoadPuzzle extends Component {
       > 
         <DialogTitle id="alert-dialog-title">Input Puzzle</DialogTitle>
           <DialogContent>
-            <TextField 
-              value={value}
-              label="Please provide a sudoku puzzle in series of numbers (0 for cell)"
-              className={classes.text}
-              onChange={this.handleChange}
-            />
+            <Tooltip title={isMobile ? label : ''}>
+              <TextField 
+                value={value}
+                label={isMobile ? '' : label}
+                className={classes.text}
+                onChange={this.handleChange}
+                InputProps={{
+                  classes: {
+                    input: classes.input,
+                  },
+                }}
+                multiline={isMobile}
+              />
+              </Tooltip>
           </DialogContent>
           <DialogActions>
             <Button onClick={this.handleOkButton} color="primary">
