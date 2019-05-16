@@ -13,7 +13,8 @@ import Row from './Row';
 import Controls from './Controls';
 import styles from './styles';
 import {initializeSquareList, updateSquare, setIsComplete} from './actions';
-import Utility from './Utility';
+import DataUtility from './utils/DataUtility';
+import PuzzleUtility from './utils/PuzzleUtility';
 import Alert from './Alert';
 
 class SudokuBoard extends Component {
@@ -56,75 +57,36 @@ class SudokuBoard extends Component {
     return result;
   }
 
-  getUnusedNumber = (peers) => {
-    const {dataFoobar} = this.state;
-    const result =  ['1','2','3','4','5','7','8','9'].filter(number => {
-      var isValid = true;
-      for(let index = 0; index < peers.length; index++) {
-        const peer = peers[index];
-        if(dataFoobar[peer].value === number){
-          isValid = false;
-          break;
-        }
-      }
-      return isValid; 
-    });
-    return result;
-  }
+  // getUnusedNumber = (peers) => {
+  //   const {dataFoobar} = this.state;
+  //   const result =  ['1','2','3','4','5','7','8','9'].filter(number => {
+  //     var isValid = true;
+  //     for(let index = 0; index < peers.length; index++) {
+  //       const peer = peers[index];
+  //       if(dataFoobar[peer].value === number){
+  //         isValid = false;
+  //         break;
+  //       }
+  //     }
+  //     return isValid; 
+  //   });
+  //   return result;
+  // }
 
   componentDidMount = () => {
-    console.log('rendering');
     const {classes} = this.props;
-    const foobar = Utility.generateFoobar();
     // const data = '016002400320009000040103000005000069009050300630000800000306010000400072004900680';
     // const data = '400000805030000000000700000020000060000080400000010000000603070500200000104000000';
-    // const data = '003020600900305001001806400008102900700000008006708200002609500800203009005010300';
-    const data = '483921657967345821251876493548132976729564138136798245372689514814253769005417382';
-    const dataLength = data.length;
-    let dataArray = [];
-    let squaresData = {};
-    const squares = foobar['squares'];
-    const peers = foobar['peers'];
-    for(let index = 0; index < dataLength; index++) {
-      let numberChar = data.charAt(index);
-      const squareCode = squares[index];
-      const squarePeers = peers[squareCode];
-      dataArray.push(numberChar);
-      squaresData[squareCode] = {
-        value: numberChar,
-        id: squareCode,
-        peers: squarePeers,
-        isFixedValue: numberChar !== '0',
-      }
-    }
+    const data = '003020600900305001001806400008102900700000008006708200002609500800203009005010300';
+    // const data = '483921657967345821251876493548132976729564138136798245372689514814253769005417382';
+    const {squaresArrayPerRow, squaresData} = DataUtility.generateData(data);
+
+    PuzzleUtility.setSquarePossibleValues(squaresData); 
 
     this.setState({
-      squaresArrayPerRow: foobar['squaresArrayPerRow'],
+      squaresArrayPerRow,
     }); 
-    console.log('squaresData: ', squaresData);
-
-    // SET POSSIBLE VALUES
-    Object.keys(squaresData).forEach( key => {
-      const squareData = squaresData[key];
-      const peers = squareData.peers;
-      let possibleValues = [];
-      if(squareData.value === '0'){
-        possibleValues = ['1','2','3','4','5','6','7','8','9'].filter(number => {
-          var isValid = true;
-          for(let index = 0; index < peers.length; index++) {
-            const peer = peers[index];
-            if(squaresData[peer].value === number){
-              isValid = false;
-              break;
-            }
-          }
-          return isValid; 
-        });
-      }
-      squareData.possibleValues = possibleValues
-      squaresData[key] = squareData;
-    }); 
-    this.props.handleInitList(squaresData)
+    this.props.handleInitList(squaresData);
   }
 
   render() {
@@ -166,6 +128,5 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   handleUpdateSquare: (squareCode, value) => dispatch(updateSquare(squareCode, value)),
   handleSetIsComplete: () => dispatch(setIsComplete()),
 })
-
 
 export default withWidth()(injectSheet(styles)(connect(mapStateToProps,mapDispatchToProps)(SudokuBoard)));
