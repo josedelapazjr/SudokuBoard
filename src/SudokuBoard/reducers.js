@@ -18,6 +18,8 @@ export default function squareReducer(state=initialState,action) {
             ...state.squaresData[squareCode],
             value: value,
           };
+          console.log('UPDATE_SQAURE:incompleteCount: ', Object.keys(state.squaresData).
+            filter(key => state.squaresData[key].value === '0').length);
           return {
             ...state,
             squaresData: {
@@ -25,7 +27,7 @@ export default function squareReducer(state=initialState,action) {
               [squareCode]: squareData,
             },
             isComplete: Object.keys(state.squaresData).
-              filter(key => state.squaresData[key].value === '0').length === 1
+              filter(key => state.squaresData[key].value === '0').length === 0
           }
         }
         case 'SET_IS_COMPLETE' :{

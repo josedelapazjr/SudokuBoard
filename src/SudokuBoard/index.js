@@ -33,6 +33,19 @@ class SudokuBoard extends Component {
     }
   }
 
+  handleSolveButtonClick = () => {
+    const { squaresData, handleUpdateSquare } = this.props;
+    console.log('BEFORE:PuzzleUtility.solve:squaresData ', squaresData);
+    if(PuzzleUtility.solve(
+      squaresData, 
+      (squareCode, value) => handleUpdateSquare(squareCode, value))) {
+      console.log('Finally solved the puzzle!!!: ', squaresData);
+      // this.props.handleInitList(squaresData);
+    } else {
+      console.log('FAILED!!!!');
+    }
+  }
+
   handleAlertClose = () => {
     console.log('executing handleAlertClose...');
     this.setState({
@@ -81,7 +94,9 @@ class SudokuBoard extends Component {
     // const data = '483921657967345821251876493548132976729564138136798245372689514814253769005417382';
     const {squaresArrayPerRow, squaresData} = DataUtility.generateData(data);
 
+    console.log('BEFORE:componentDidMount:squaresData ', squaresData);
     PuzzleUtility.setSquarePossibleValues(squaresData); 
+    console.log('AFTER:componentDidMount:squaresData ', squaresData);
 
     this.setState({
       squaresArrayPerRow,
@@ -90,6 +105,7 @@ class SudokuBoard extends Component {
   }
 
   render() {
+    console.log('rendering:isComplete: ', this.props.isComplete);
     const {classes, squaresData, handleUpdateSquare} = this.props;
     const {squaresArrayPerRow, showModal} = this.state;
     return(
@@ -112,6 +128,9 @@ class SudokuBoard extends Component {
             </TableBody>
           </Table>
           </div>
+          <Button variant="contained" color="primary" onClick={this.handleSolveButtonClick}/*className={classes.button}*/>
+            Solve
+          </Button>
           <Alert isOpen={showModal} handleClose={this.handleAlertClose}/>
         </div>
     );
