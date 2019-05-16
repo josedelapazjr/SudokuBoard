@@ -1,15 +1,20 @@
 import React from 'react';
 import Fab from '@material-ui/core/Fab';
 import injectSheet from 'react-jss';
+import Button from '@material-ui/core/Button';
 import styles from './styles';
 
-const Controls = ({classes}) => (
+const Controls = ({handleSolve, handleResetButton, classes}) => (
     <div className={classes.root}>
-        {['1','2','3','4','5','6','7','8','9'].map(number => 
-            <Fab id={number} color="primary" aria-label="Add">
-                    {number}
-                </Fab>
-            )}
+        <Button variant="contained" color="primary" onClick={handleSolve} className={classes.button}>
+          Solve
+        </Button>
+        <Button variant="contained" color="primary" onClick={handleResetButton} className={classes.button}>
+          Reset
+        </Button>
+        <Button variant="contained" color="primary" className={classes.button}>
+          Load
+        </Button>
     </div>
 );
 

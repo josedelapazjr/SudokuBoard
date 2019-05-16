@@ -46,6 +46,23 @@ class SudokuBoard extends Component {
     }
   }
 
+  handleResetButton = () => {
+    const {squaresData, handleInitList} = this.props;
+    // const initSquaresData = squaresData.map(squareData => {
+    //   return squareData.isFixedValue ? squareData : squareData.value = 0;
+    // });
+    
+    console.log('BEFORE:handleResetButton:squaresData ', squaresData);
+    Object.keys(squaresData).forEach(key => {
+      const squareData = squaresData[key];
+      if(!squareData.isFixedValue) {
+        squareData.value = '0';
+      }
+    })
+    console.log('AFTER:handleResetButton:squaresData ', squaresData);
+    handleInitList(squaresData);
+  }
+
   handleAlertClose = () => {
     console.log('executing handleAlertClose...');
     this.setState({
@@ -88,15 +105,15 @@ class SudokuBoard extends Component {
 
   componentDidMount = () => {
     const {classes} = this.props;
-    // const data = '016002400320009000040103000005000069009050300630000800000306010000400072004900680';
-    // const data = '400000805030000000000700000020000060000080400000010000000603070500200000104000000';
-    const data = '003020600900305001001806400008102900700000008006708200002609500800203009005010300';
+    const data = '016002400320009000040103000005000069009050300630000800000306010000400072004900680';
+    // const data = '400000805 030000000 000700000 020000060 000080400 000010000 000603070 500200000 104000000';
+    // const data = '003020600900305001001806400008102900700000008006708200002609500800203009005010300';
     // const data = '483921657967345821251876493548132976729564138136798245372689514814253769005417382';
     const {squaresArrayPerRow, squaresData} = DataUtility.generateData(data);
 
-    console.log('BEFORE:componentDidMount:squaresData ', squaresData);
-    PuzzleUtility.setSquarePossibleValues(squaresData); 
-    console.log('AFTER:componentDidMount:squaresData ', squaresData);
+    // console.log('BEFORE:componentDidMount:squaresData ', squaresData);
+    // PuzzleUtility.setSquarePossibleValues(squaresData); 
+    // console.log('AFTER:componentDidMount:squaresData ', squaresData);
 
     this.setState({
       squaresArrayPerRow,
@@ -127,10 +144,11 @@ class SudokuBoard extends Component {
               )}
             </TableBody>
           </Table>
-          </div>
-          <Button variant="contained" color="primary" onClick={this.handleSolveButtonClick}/*className={classes.button}*/>
+          </div>      
+          {/* <Button variant="contained" color="primary" onClick={this.handleSolveButtonClick}>
             Solve
-          </Button>
+          </Button> */}
+          <Controls handleSolve={this.handleSolveButtonClick} handleResetButton={this.handleResetButton}/>
           <Alert isOpen={showModal} handleClose={this.handleAlertClose}/>
         </div>
     );

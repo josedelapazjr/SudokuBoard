@@ -9,6 +9,7 @@ export default function squareReducer(state=initialState,action) {
             return {
                 ...state,
                 squaresData: action.payload,
+                isComplete: false,
             }
         }
         case 'UPDATE_SQAURE': {
