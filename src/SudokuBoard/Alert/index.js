@@ -1,5 +1,6 @@
 import React from 'react';
 import injectSheet from 'react-jss';
+import withWidth from '@material-ui/core/withWidth';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -13,7 +14,6 @@ const Alert = ({isOpen, classes, handleClose}) => (
     open={isOpen} 
     disableBackdropClick={false} 
     classes={{ root: classes.root}}
-    // onClose={handleClose}
   > 
     <DialogTitle id="alert-dialog-title">Congratulations!</DialogTitle>
           <DialogContent>
@@ -30,4 +30,4 @@ const Alert = ({isOpen, classes, handleClose}) => (
 );
 
 
-export default injectSheet(styles)(Alert);
+export default withWidth()(injectSheet(styles)(Alert));

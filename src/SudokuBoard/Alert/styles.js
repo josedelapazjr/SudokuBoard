@@ -1,7 +1,9 @@
+import { isWidthUp } from '@material-ui/core/withWidth/index';
+
 export default {
-  root: ({index, isReadOnly}) => {
+  root: ({width, index, isReadOnly}) => {
     return {
-      marginTop: -600,
+      marginTop: isWidthUp('sm', width) ? -600 : null,
     };
   },
 };
