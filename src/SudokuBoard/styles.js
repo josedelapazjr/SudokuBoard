@@ -4,7 +4,7 @@ export default {
   root: ({ width }) => {
     return {
       margin: '0 auto',
-      width: isWidthUp('md', width) ? 800 : 400,
+      width: isWidthUp('md', width) ? 600 : 400,
     };
   },
   header: {

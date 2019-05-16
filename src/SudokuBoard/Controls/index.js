@@ -4,15 +4,15 @@ import injectSheet from 'react-jss';
 import Button from '@material-ui/core/Button';
 import styles from './styles';
 
-const Controls = ({handleSolve, handleResetButton, classes}) => (
+const Controls = ({handleSolveButton, handleResetButton, handleLoadButton, classes}) => (
     <div className={classes.root}>
-        <Button variant="contained" color="primary" onClick={handleSolve} className={classes.button}>
+        <Button variant="contained" color="primary" onClick={handleSolveButton} className={classes.button}>
           Solve
         </Button>
         <Button variant="contained" color="primary" onClick={handleResetButton} className={classes.button}>
           Reset
         </Button>
-        <Button variant="contained" color="primary" className={classes.button}>
+        <Button variant="contained" color="primary" onClick={handleLoadButton} className={classes.button}>
           Load
         </Button>
     </div>
