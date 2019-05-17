@@ -54,7 +54,7 @@ describe('DataUtility', () => {
         const expectedValue = data.charAt(index);
         const squareData = squaresData[squareCode];
         expect(squareData.value).toBe(expectedValue);
-        expect(squareData.id).toBe(squareCode);
+        expect(squareData.code).toBe(squareCode);
         expect(squareData.peers.length).toBe(20);
         expect(squareData.isFixedValue).toBe(expectedValue === '0' ? false : true);
       });
