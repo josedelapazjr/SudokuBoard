@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import styles from './styles';
 import Cell from './Cell';
 
-const Row = ({data, rowIndex, squaresData, isValid, classes, handleUpdateSquare}) => (
+const Row = ({data, rowIndex, squaresData, checkIsValid, classes, handleUpdateSquare}) => (
   <TableRow key={rowIndex} className={classes.root}>
       {data ? data.map((id, index) => {
           const square = squaresData[id];
@@ -14,7 +14,7 @@ const Row = ({data, rowIndex, squaresData, isValid, classes, handleUpdateSquare}
             index={index} 
             id={square.id} 
             value={square.value} 
-            isValid={isValid}
+            checkIsValid={checkIsValid}
             possibleValues={square.possibleValues}
             isReadOnly={square.isFixedValue}
             handleUpdateSquare={handleUpdateSquare}
@@ -31,7 +31,7 @@ Row.propTypes = {
     id: PropTypes.string,
     peers: PropTypes.arrayOf(PropTypes.string),
   }),
-  isValid: PropTypes.func,
+  checkIsValid: PropTypes.func,
   handleUpdateSquare: PropTypes.func,
 };
 

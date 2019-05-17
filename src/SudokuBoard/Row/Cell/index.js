@@ -21,9 +21,9 @@ class Cell extends Component {
 
   handleChange = (event) => {
     const {value} = event.target;
-    const {id, isValid, handleUpdateSquare} = this.props;
+    const {id, checkIsValid, handleUpdateSquare} = this.props;
     let hasError = false;
-    if(isValid(id, value)) {
+    if(checkIsValid(id, value)) {
       handleUpdateSquare(id, value);
     } else {
       hasError = true;    
@@ -34,13 +34,12 @@ class Cell extends Component {
     });
   }
 
-  checkIsValid = () => {
-      const {id, value, isValid} = this.props;
-      return isValid(id, value);
+  checkcheckIsValid = () => {
+      const {id, value, checkIsValid} = this.props;
+      return checkIsValid(id, value);
   }
 
   render() {
-    console.log('Cell:rendering!');
     const {id, possibleValues, isReadOnly, classes} = this.props;
     const {value, hasError} = this.state;
     return(
@@ -75,7 +74,7 @@ Cell.propTypes = {
   id: PropTypes.string,
   possibleValues: PropTypes.arrayOf(PropTypes.string),
   isReadOnly: PropTypes.bool,
-  isValid: PropTypes.func,
+  checkIsValid: PropTypes.func,
 };
 
 export default injectSheet(styles)(Cell);

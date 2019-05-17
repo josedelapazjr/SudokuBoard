@@ -42,30 +42,25 @@ class PuzzleUtility {
   }
 
   static solve = (squaresData, handleUpdateSquareCallBack) => {
-    console.log('squaresData: ', squaresData);
-    const sqaureDataCode = this.getUnassignedLocation(squaresData);
-    console.log('sqaureDataCode: ', sqaureDataCode);
-    if(!sqaureDataCode) {
+    const squareDataCode = this.getUnassignedLocation(squaresData);
+    if(!squareDataCode) {
       return true;
     } 
 
-    let squareData = squaresData[sqaureDataCode];
+    let squareData = squaresData[squareDataCode];
 
     for(let num = 1; num <= 9; num++) {
       const strNum = num.toString();
-      console.log('strNum: ', strNum);
-      if(this.isSafe(squaresData, sqaureDataCode, strNum)) {  
-        console.log('isSafe:strNum: ', strNum);
+      if(this.isSafe(squaresData, squareDataCode, strNum)) {  
         squareData.value = strNum;
-        squaresData[sqaureDataCode] = squareData;
-        handleUpdateSquareCallBack(sqaureDataCode, strNum);
+        squaresData[squareDataCode] = squareData;
+        handleUpdateSquareCallBack(squareDataCode, strNum);
         if(this.solve(squaresData, handleUpdateSquareCallBack)) {
           return true;
         };
-        console.log('!solved: ', squareData);
         squareData.value = '0';
-        handleUpdateSquareCallBack(sqaureDataCode, strNum);
-        squaresData[sqaureDataCode] = squareData;
+        handleUpdateSquareCallBack(squareDataCode, strNum);
+        squaresData[squareDataCode] = squareData;
       } 
     }
     return false;

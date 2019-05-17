@@ -68,7 +68,7 @@ class DataUtility {
       const squarePeers = peers[squareCode];
       squaresData[squareCode] = {
         value: numberChar,
-        id: squareCode,
+        code: squareCode,
         peers: squarePeers,
         isFixedValue: numberChar !== '0',
       }

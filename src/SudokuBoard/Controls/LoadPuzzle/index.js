@@ -19,7 +19,6 @@ class LoadPuzzle extends Component {
 
   handleChange = (event) => {
     const {value} = event.target;
-    console.log('handleChange:value: ', value)
     this.setState({
       value,
     });
