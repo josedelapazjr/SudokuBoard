@@ -34,6 +34,9 @@ can test your algorithm on various puzzles.
 
 		http://localhost:3000
 		
+Note: You can also run the unit test using the command below:
+
+	yarn test
 		
 ### Additional information
 - Built using React/Redux techologies

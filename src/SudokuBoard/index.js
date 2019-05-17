@@ -26,15 +26,6 @@ class SudokuBoard extends Component {
     showLoadPuzzle: false,
   };
 
-  // componentDidUpdate = (prevProps) => {
-  //   const {isComplete} = this.props
-  //   if( prevProps.isComplete !== isComplete && isComplete) {
-  //     this.setState({
-  //       showStatusModal: true,
-  //     });
-  //   }
-  // }
-
   handleSolveButton = () => {
     console.log('handleSolveButton:setting showStatusModal to TRUE');
     this.setState({
