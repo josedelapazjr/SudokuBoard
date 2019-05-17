@@ -15,31 +15,50 @@ class LoadPuzzle extends Component {
 
   state = {
     value: '',
+    hasError: false,
   }
 
   handleChange = (event) => {
     const {value} = event.target;
+    const isNumber = /^\d+$/.test(value);
     this.setState({
       value,
+      hasError: !isNumber || value.length !== 9,
     });
   }
 
   handleOkButton = () => {
     const {handleLoadPuzzle, handleClose} = this.props;
-    const {value} = this.state;
-    if(value.length > 0) {
-      handleLoadPuzzle(value);
+    const {value, hasError} = this.state;
+    if(!hasError){
+      if(value.length > 0) {
+        handleLoadPuzzle(value);
+        handleLoadPuzzle(value);
+        handleClose();
+        this.setState({
+          value: '',
+        });
+      } else {
+        this.setState({
+          hasError: true,
+        });  
+      }
     }
-    handleClose();
+  }
+
+  handleCancelButton = () => {
+    const {handleClose} = this.props;
     this.setState({
       value: '',
+      hasError: false,
     });
+    handleClose();
   }
 
   render() {
-    const {isOpen, handleClose, width, classes} = this.props;
+    const {isOpen, width, classes} = this.props;
     const isMobile = !isWidthUp('sm', width);
-    const {value} = this.state;
+    const {value, hasError} = this.state;
     const label = 'Please provide a sudoku puzzle in series of numbers (0 for empty cell)';
     return(
       <Dialog 
@@ -47,7 +66,7 @@ class LoadPuzzle extends Component {
         disableBackdropClick={false} 
         classes={{ root: classes.root}}
       > 
-        <DialogTitle id="alert-dialog-title">Input Puzzle</DialogTitle>
+        <DialogTitle>Input Puzzle</DialogTitle>
           <DialogContent>
             <Tooltip title={isMobile ? label : ''}>
               <TextField 
@@ -61,6 +80,7 @@ class LoadPuzzle extends Component {
                   },
                 }}
                 multiline={isMobile}
+                error={hasError}
               />
               </Tooltip>
           </DialogContent>
@@ -68,7 +88,7 @@ class LoadPuzzle extends Component {
             <Button onClick={this.handleOkButton} color="primary">
               OK
             </Button>
-            <Button onClick={handleClose} color="primary">
+            <Button onClick={this.handleCancelButton} color="primary">
               Cancel
             </Button>
           </DialogActions>

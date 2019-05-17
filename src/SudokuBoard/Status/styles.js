@@ -1,4 +1,4 @@
-import { isWidthUp } from '@material-ui/core/withWidth/index';
+import { isWidthUp } from '@material-ui/core/withWidth';
 
 export default {
   root: ({width, index, isReadOnly}) => {

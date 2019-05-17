@@ -12,7 +12,7 @@ const Row = ({data, rowIndex, squaresData, checkIsValid, classes, handleUpdateSq
           return <Cell 
             key={index} 
             index={index} 
-            id={square.id} 
+            code={square.code} 
             value={square.value} 
             checkIsValid={checkIsValid}
             possibleValues={square.possibleValues}

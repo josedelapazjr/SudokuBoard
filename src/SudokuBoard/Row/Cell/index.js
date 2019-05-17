@@ -21,10 +21,10 @@ class Cell extends Component {
 
   handleChange = (event) => {
     const {value} = event.target;
-    const {id, checkIsValid, handleUpdateSquare} = this.props;
+    const {code, checkIsValid, handleUpdateSquare} = this.props;
     let hasError = false;
-    if(checkIsValid(id, value)) {
-      handleUpdateSquare(id, value);
+    if(checkIsValid(code, value)) {
+      handleUpdateSquare(code, value);
     } else {
       hasError = true;    
     };
@@ -35,12 +35,12 @@ class Cell extends Component {
   }
 
   checkcheckIsValid = () => {
-      const {id, value, checkIsValid} = this.props;
-      return checkIsValid(id, value);
+      const {code, value, checkIsValid} = this.props;
+      return checkIsValid(code, value);
   }
-
+ConvolverNode
   render() {
-    const {id, possibleValues, isReadOnly, classes} = this.props;
+    const {code, possibleValues, isReadOnly, classes} = this.props;
     const {value, hasError} = this.state;
     return(
       // <Tooltip title={isReadOnly ? 'Fixed' : possibleValues}>
@@ -50,7 +50,7 @@ class Cell extends Component {
             align="center"
         >
           <TextField 
-              id={id} 
+              id={code} 
               value={parseInt(value) > 0 ? value : ''} 
               variant="outlined" 
               onChange={this.handleChange}
@@ -71,7 +71,7 @@ class Cell extends Component {
 }
 
 Cell.propTypes = {
-  id: PropTypes.string,
+  code: PropTypes.string,
   possibleValues: PropTypes.arrayOf(PropTypes.string),
   isReadOnly: PropTypes.bool,
   checkIsValid: PropTypes.func,

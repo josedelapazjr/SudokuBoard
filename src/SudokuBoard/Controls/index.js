@@ -4,11 +4,14 @@ import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
 import styles from './styles';
 
-const Controls = ({handleSolveButton, handleResetButton, handleLoadButton, classes}) => (
+const Controls = ({isComplete, handleSolveButton, handleResetButton, handleLoadButton, classes}) => (
     <div className={classes.root}>
-        <Button variant="contained" color="primary" onClick={handleSolveButton} className={classes.button}>
-          Solve
-        </Button>
+        {!isComplete 
+          ? <Button variant="contained" color="primary" onClick={handleSolveButton} className={classes.button}>
+              Solve
+           </Button>
+          : null 
+        }
         <Button variant="contained" color="primary" onClick={handleResetButton} className={classes.button}>
           Reset
         </Button>

@@ -11,29 +11,38 @@ import styles from './styles';
 import {initializeSquareList, updateSquare, setIsComplete} from './actions';
 import DataUtility from './utils/DataUtility';
 import PuzzleUtility from './utils/PuzzleUtility';
-import Alert from './Alert';
+import Alert from './Status';
 import LoadPuzzle from './Controls/LoadPuzzle';
 import {DEFAULT_DATA} from './constants';
+import InProgress from './Status/InProgress';
+import Success from './Status/Success';
+import Status from './Status';
 
 class SudokuBoard extends Component {
 
   state = {
     squaresArrayPerRow: [],
-    showAlertModal: false,
+    showStatusModal: false,
     showLoadPuzzle: false,
   };
 
-  componentDidUpdate = (prevProps) => {
-    const {isComplete} = this.props
-    if( prevProps.isComplete !== isComplete && isComplete) {
-      this.setState({
-        showAlertModal: true,
-      });
-    }
-  }
+  // componentDidUpdate = (prevProps) => {
+  //   const {isComplete} = this.props
+  //   if( prevProps.isComplete !== isComplete && isComplete) {
+  //     this.setState({
+  //       showStatusModal: true,
+  //     });
+  //   }
+  // }
 
   handleSolveButton = () => {
+    console.log('handleSolveButton:setting showStatusModal to TRUE');
+    this.setState({
+      showStatusModal: true,
+    });
+
     const { squaresData, handleUpdateSquare } = this.props;
+
     if(PuzzleUtility.solve(
       squaresData, 
       (squareCode, value) => handleUpdateSquare(squareCode, value))) {
@@ -52,11 +61,15 @@ class SudokuBoard extends Component {
       }
     })
     handleInitList(squaresData);
+    this.setState({
+      showStatusModal: false,
+    });
   }
 
   handleLoadButton = () => {
     this.setState({
       showLoadPuzzle: true, 
+      showStatusModal: false,
     });
   }
 
@@ -67,8 +80,9 @@ class SudokuBoard extends Component {
   }
 
   handleAlertClose = () => {
+    console.log('handleAlertClose:setting showStatusModal to FALSE');
     this.setState({
-      showAlertModal : false
+      showStatusModal : false
     });
   }
   
@@ -82,9 +96,9 @@ class SudokuBoard extends Component {
     this.props.handleInitList(squaresData);
   }
 
-  checkIsValid = (square, number) => {
+  checkIsValid = (squareCode, number) => {
     const { squaresData } = this.props;
-    const data = squaresData[square];
+    const data = squaresData[squareCode];
     const peers = data.peers;
     let result = true;
     for(let index = 0; index < peers.length; index++) {
@@ -103,8 +117,9 @@ class SudokuBoard extends Component {
   }
 
   render() {
-    const {classes, squaresData, handleUpdateSquare} = this.props;
-    const {squaresArrayPerRow, showAlertModal, showLoadPuzzle} = this.state;
+    const {classes, squaresData, handleUpdateSquare, isComplete} = this.props;
+    const {squaresArrayPerRow, showStatusModal, showLoadPuzzle} = this.state;
+    console.log('showStatusModal, isComplete => ', showStatusModal, isComplete);
     return(
       <div className={classes.root}>
           <div className={classes.header}>
@@ -126,11 +141,15 @@ class SudokuBoard extends Component {
           </Table>
           </div>      
           <Controls 
+            isComplete={isComplete}
             handleSolveButton={this.handleSolveButton} 
             handleResetButton={this.handleResetButton}
             handleLoadButton={this.handleLoadButton}/>
           <LoadPuzzle isOpen={showLoadPuzzle} handleLoadPuzzle={this.handleLoadPuzzle} handleClose={this.handleLoadPuzzleClose}/>
-          <Alert isOpen={showAlertModal} handleClose={this.handleAlertClose}/>
+          {/* <Alert isOpen={showStatusModal} handleClose={this.handleAlertClose}/> */}
+          {/* <Alert isOpen={true} handleClose={this.handleAlertClose}/> */}
+          {/* <InProgress isOpen /> */}
+          <Status isOpen={showStatusModal} isComplete={isComplete} handleClose={this.handleAlertClose}/>      
         </div>
     );
   }
