@@ -1,7 +1,7 @@
-#Sudoku Challenge
+# Sudoku Challenge
 
 
-###Requirements:
+### Requirements:
 
 - It should show a Sudoku board where there is a possibility for the user to trigger
 solving of the puzzle. There must also be an easy way to add Sudoku puzzles to the app so that we
@@ -9,7 +9,7 @@ can test your algorithm on various puzzles.
 - The UI needs to be visually appealing and user-friendly. It should be able to support various browsers and different screen resolutions.
 
 
-###Functionalities
+### Functionalities
 
 - Allow users to solve Sudoku puzzle manually or automatically
 - Reset the current puzzle
@@ -21,7 +21,7 @@ can test your algorithm on various puzzles.
 
 
 
-###How to run
+### How to run
 1. Install the application.
 	
 		yarn install
@@ -35,7 +35,7 @@ can test your algorithm on various puzzles.
 		http://localhost:3000
 		
 		
-###Additional information
+### Additional information
 - Built using React/Redux techologies
 - Used a simple backtracking algorithm
 
