@@ -1,68 +1,41 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+#Sudoku Challenge
 
-## Available Scripts
 
-In the project directory, you can run:
+###Requirements:
 
-### `npm start`
+- It should show a Sudoku board where there is a possibility for the user to trigger
+solving of the puzzle. There must also be an easy way to add Sudoku puzzles to the app so that we
+can test your algorithm on various puzzles.
+- The UI needs to be visually appealing and user-friendly. It should be able to support various browsers and different screen resolutions.
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+###Functionalities
 
-### `npm test`
+- Allow users to solve Sudoku puzzle manually or automatically
+- Reset the current puzzle
+- Load a new puzzle by providing a series of numbers (0 for empty cells) 
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+		Example:
+		016002400320009000040103000005000069009050300630000800000306010000400072004900680
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+###How to run
+1. Install the application.
+	
+		yarn install
+		
+2. After the installation, you can now start running the application.
 
-### `npm run eject`
+		yarn start
+		
+3. Once the start process is successful, it will automatically launch your default/active web browser with the link below:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+		http://localhost:3000
+		
+		
+###Additional information
+- Built using React/Redux techologies
+- Used a simple backtracking algorithm
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify

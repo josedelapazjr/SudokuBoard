@@ -18,13 +18,14 @@ export default function squareReducer(state=initialState,action) {
             ...state.squaresData[squareCode],
             value: value,
           };
+          const updatedData = {
+            ...state.squaresData,
+              [squareCode]: squareData,  
+          };
           return {
             ...state,
-            squaresData: {
-              ...state.squaresData,
-              [squareCode]: squareData,
-            },
-            isComplete: Object.keys(state.squaresData).filter(key => state.squaresData[key].value === '0').length === 0,
+            squaresData : updatedData,
+            isComplete: Object.keys(updatedData).filter(key => updatedData[key].value === '0').length === 0,
           }
         }
         case 'SET_IS_COMPLETE' :{

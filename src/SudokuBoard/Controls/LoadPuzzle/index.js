@@ -10,6 +10,7 @@ import injectSheet from 'react-jss';
 import withWidth, { isWidthUp} from '@material-ui/core/withWidth';
 import PropTypes from 'prop-types';
 import styles from './styles';
+import {SQUARE_COUNT} from '../../constants';
 
 class LoadPuzzle extends Component {
 
@@ -23,7 +24,7 @@ class LoadPuzzle extends Component {
     const isNumber = /^\d+$/.test(value);
     this.setState({
       value,
-      hasError: !isNumber || value.length !== 9,
+      hasError: !isNumber || value.length !== SQUARE_COUNT,
     });
   }
 

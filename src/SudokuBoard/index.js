@@ -146,9 +146,6 @@ class SudokuBoard extends Component {
             handleResetButton={this.handleResetButton}
             handleLoadButton={this.handleLoadButton}/>
           <LoadPuzzle isOpen={showLoadPuzzle} handleLoadPuzzle={this.handleLoadPuzzle} handleClose={this.handleLoadPuzzleClose}/>
-          {/* <Alert isOpen={showStatusModal} handleClose={this.handleAlertClose}/> */}
-          {/* <Alert isOpen={true} handleClose={this.handleAlertClose}/> */}
-          {/* <InProgress isOpen /> */}
           <Status isOpen={showStatusModal} isComplete={isComplete} handleClose={this.handleAlertClose}/>      
         </div>
     );
