@@ -1,7 +1,7 @@
 import React from 'react';
-import Fab from '@material-ui/core/Fab';
 import injectSheet from 'react-jss';
 import Button from '@material-ui/core/Button';
+import PropTypes from 'prop-types';
 import styles from './styles';
 
 const Controls = ({handleSolveButton, handleResetButton, handleLoadButton, classes}) => (
@@ -17,5 +17,11 @@ const Controls = ({handleSolveButton, handleResetButton, handleLoadButton, class
         </Button>
     </div>
 );
+
+Controls.propTypes = {
+  handleSolveButton: PropTypes.func,
+  handleResetButton: PropTypes.func,
+  handleLoadButton: PropTypes.func,
+};
 
 export default injectSheet(styles)(Controls);

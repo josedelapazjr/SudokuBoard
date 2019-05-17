@@ -1,45 +1,38 @@
-import React, { Component } from 'react';
+import React from 'react';
 import TableRow from '@material-ui/core/TableRow';
-import TableCell from '@material-ui/core/TableCell';
 import injectSheet from 'react-jss';
+import PropTypes from 'prop-types';
 import styles from './styles';
 import Cell from './Cell';
 
-// const getUnusedNumber = (peers, squareList) => {
-//     const result =  ['1','2','3','4','5','7','8','9'].filter(number => {
-//       var isValid = true;
-//       for(let index = 0; index < peers.length; index++) {
-//         const peer = peers[index];
-//         if(squareList[peer].value === number){
-//           isValid = false;
-//           break;
-//         }
-//       }
-//       return isValid; 
-//     });
-//     return result;
-//   }
-
-
-const Row = ({data, rowIndex, squareList, isValid, classes, handleUpdateSquare}) => (
-    <div className={classes.root}>
-      <TableRow key={rowIndex}>
-          {data && data.map((id, index) => {
-              // const unusedNumbers = getUnusedNumber(squareList[id].peers, squareList);
-              const square = squareList[id];
-              return <Cell 
-                key={index} 
-                index={index} 
-                id={square.id} 
-                value={square.value} 
-                isValid={isValid}
-                possibleValues={square.possibleValues}
-                isReadOnly={square.isFixedValue}
-                handleUpdateSquare={handleUpdateSquare}
-              />
-          })}
-      </TableRow>
-    </div>
+const Row = ({data, rowIndex, squaresData, isValid, classes, handleUpdateSquare}) => (
+  <TableRow key={rowIndex} className={classes.root}>
+      {data ? data.map((id, index) => {
+          const square = squaresData[id];
+          return <Cell 
+            key={index} 
+            index={index} 
+            id={square.id} 
+            value={square.value} 
+            isValid={isValid}
+            possibleValues={square.possibleValues}
+            isReadOnly={square.isFixedValue}
+            handleUpdateSquare={handleUpdateSquare}
+          />
+      }) : null}
+  </TableRow>
 );
+
+Row.propTypes = {
+  data: PropTypes.arrayOf(PropTypes.string),
+  rowIndex: PropTypes.number,
+  squaresData: PropTypes.shape({
+    value: PropTypes.string,
+    id: PropTypes.string,
+    peers: PropTypes.arrayOf(PropTypes.string),
+  }),
+  isValid: PropTypes.func,
+  handleUpdateSquare: PropTypes.func,
+};
 
 export default injectSheet(styles)(Row);

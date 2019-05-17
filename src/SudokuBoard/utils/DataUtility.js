@@ -19,14 +19,14 @@ class DataUtility {
     }
   
     let horizontalUnits = []
-    for (var i=0; i<COL_INDEXES.length; i++) {
-      horizontalUnits.push(this.generateSquareCode([COL_INDEXES[i]],ROW_INDEXES)); 
+    for (let index = 0; index<COL_INDEXES.length; index++) {
+      horizontalUnits.push(this.generateSquareCode([COL_INDEXES[index]],ROW_INDEXES)); 
     }
   
     let boxUnits = []
-    for (var c=0;c<COL_GROUP.length;c++) {
-      for (var r=0;r<ROW_GROUP.length;r++) {
-        boxUnits.push(this.generateSquareCode(COL_GROUP[c], ROW_GROUP[r]))
+    for (let colIndex = 0; colIndex < COL_GROUP.length; colIndex++) {
+      for (let rowIndex = 0; rowIndex < ROW_GROUP.length; rowIndex ++) {
+        boxUnits.push(this.generateSquareCode(COL_GROUP[colIndex], ROW_GROUP[rowIndex]))
       }
     }
   

@@ -7,6 +7,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
+import PropTypes from 'prop-types';
 import styles from './styles';
 
 const Alert = ({isOpen, classes, handleClose}) => (
@@ -28,6 +29,11 @@ const Alert = ({isOpen, classes, handleClose}) => (
           </DialogActions>
   </Dialog>  
 );
+
+Alert.propTypes = {
+  isOpen: PropTypes.bool,
+  handleClose: PropTypes.func,
+};
 
 
 export default withWidth()(injectSheet(styles)(Alert));

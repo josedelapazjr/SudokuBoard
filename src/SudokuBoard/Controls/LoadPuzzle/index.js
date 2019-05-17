@@ -2,13 +2,13 @@ import React, {Component} from 'react';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Tooltip from '@material-ui/core/Tooltip';
 import injectSheet from 'react-jss';
 import withWidth, { isWidthUp} from '@material-ui/core/withWidth';
+import PropTypes from 'prop-types';
 import styles from './styles';
 
 class LoadPuzzle extends Component {
@@ -77,5 +77,12 @@ class LoadPuzzle extends Component {
     );
   }
 }
+
+LoadPuzzle.propTypes = {
+  isOpen: PropTypes.bool,
+  handleClose: PropTypes.func,
+  handleLoadPuzzle:  PropTypes.func,
+  width: PropTypes.string,
+};
 
 export default withWidth()(injectSheet(styles)(LoadPuzzle));

@@ -3,6 +3,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TextField from '@material-ui/core/TextField';
 import Tooltip from '@material-ui/core/Tooltip';
 import injectSheet from 'react-jss';
+import PropTypes from 'prop-types';
 import styles from './styles';
 
 class Cell extends Component {
@@ -34,7 +35,7 @@ class Cell extends Component {
   }
 
   checkIsValid = () => {
-      const {key, id, value, isValid} = this.props;
+      const {id, value, isValid} = this.props;
       return isValid(id, value);
   }
 
@@ -43,31 +44,38 @@ class Cell extends Component {
     const {id, possibleValues, isReadOnly, classes} = this.props;
     const {value, hasError} = this.state;
     return(
-      <Tooltip title={isReadOnly ? 'Fixed' : possibleValues}>
+      // <Tooltip title={isReadOnly ? 'Fixed' : possibleValues}>
         <TableCell 
             margin="normal"
             padding="none"
             align="center"
         >
-            <TextField 
-                id={id} 
-                value={parseInt(value) > 0 ? value : ''} 
-                variant="outlined" 
-                onChange={this.handleChange}
-                error={hasError}
-                onKeyPress={this.handleKeyPress}
-                InputProps={{
-                  readOnly: isReadOnly,
-                }}
-                inputProps = {{
-                  className: classes.input,
-                }}
-                className={classes.root}
-            />
-        </TableCell>   
-      </Tooltip> 
+          <TextField 
+              id={id} 
+              value={parseInt(value) > 0 ? value : ''} 
+              variant="outlined" 
+              onChange={this.handleChange}
+              error={hasError}
+              onKeyPress={this.handleKeyPress}
+              inputProps = {{
+                className: classes.input,
+              }}
+              InputProps={{
+                readOnly: isReadOnly,
+              }}
+              className={classes.root}
+          />
+        </TableCell>
+      // </Tooltip> 
     );
   }
 }
+
+Cell.propTypes = {
+  id: PropTypes.string,
+  possibleValues: PropTypes.arrayOf(PropTypes.string),
+  isReadOnly: PropTypes.bool,
+  isValid: PropTypes.func,
+};
 
 export default injectSheet(styles)(Cell);
