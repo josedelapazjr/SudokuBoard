@@ -30,4 +30,13 @@ describe('PuzzleUtility', () => {
       expect(PuzzleUtility.getUnassignedLocation(squaresData)).toBe(undefined);
     });
   });
+
+  describe('solve', () => {
+    test('should solve with given valid puzzle', () => {
+      const data = '016002400320009000040103000005000069009050300630000800000306010000400072004900680';
+      const {squaresData, squaresArrayPerRow} = DataUtility.generateData(data);
+      const result = PuzzleUtility.solve(squaresData, () => {});
+      expect(result).toBe(true);
+    });
+  });
 });

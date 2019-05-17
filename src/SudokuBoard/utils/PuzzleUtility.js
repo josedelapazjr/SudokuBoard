@@ -1,26 +1,26 @@
 class PuzzleUtility {
-  // static setSquarePossibleValues = (squaresData) => {
-  //   Object.keys(squaresData).forEach( key => {
-  //     const squareData = squaresData[key];
-  //     const peers = squareData.peers;
-  //     let possibleValues = [];
-  //     if(squareData.value === '0'){
-  //       possibleValues = ['1','2','3','4','5','6','7','8','9'].filter(number => {
-  //         var isValid = true;
-  //         for(let index = 0; index < peers.length; index++) {
-  //           const peer = peers[index];
-  //           if(squaresData[peer].value === number){
-  //             isValid = false;
-  //             break;
-  //           }
-  //         }
-  //         return isValid; 
-  //       });
-  //     }
-  //     squareData.possibleValues = possibleValues
-  //     squaresData[key] = squareData;
-  //   }); 
-  // }
+  static setSquarePossibleValues = (squaresData) => {
+    Object.keys(squaresData).forEach( key => {
+      const squareData = squaresData[key];
+      const peers = squareData.peers;
+      let possibleValues = [];
+      if(squareData.value === '0'){
+        possibleValues = ['1','2','3','4','5','6','7','8','9'].filter(number => {
+          var isValid = true;
+          for(let index = 0; index < peers.length; index++) {
+            const peer = peers[index];
+            if(squaresData[peer].value === number){
+              isValid = false;
+              break;
+            }
+          }
+          return isValid; 
+        });
+      }
+      squareData.possibleValues = possibleValues
+      squaresData[key] = squareData;
+    }); 
+  }
 
   static isSafe(squaresData, squareCode, value) {
     let result = true;
@@ -42,7 +42,9 @@ class PuzzleUtility {
   }
 
   static solve = (squaresData, handleUpdateSquareCallBack) => {
+    console.log('squaresData: ', squaresData);
     const sqaureDataCode = this.getUnassignedLocation(squaresData);
+    console.log('sqaureDataCode: ', sqaureDataCode);
     if(!sqaureDataCode) {
       return true;
     } 
@@ -51,13 +53,16 @@ class PuzzleUtility {
 
     for(let num = 1; num <= 9; num++) {
       const strNum = num.toString();
+      console.log('strNum: ', strNum);
       if(this.isSafe(squaresData, sqaureDataCode, strNum)) {  
+        console.log('isSafe:strNum: ', strNum);
         squareData.value = strNum;
         squaresData[sqaureDataCode] = squareData;
         handleUpdateSquareCallBack(sqaureDataCode, strNum);
         if(this.solve(squaresData, handleUpdateSquareCallBack)) {
           return true;
         };
+        console.log('!solved: ', squareData);
         squareData.value = '0';
         handleUpdateSquareCallBack(sqaureDataCode, strNum);
         squaresData[sqaureDataCode] = squareData;
